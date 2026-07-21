@@ -2,7 +2,7 @@ package com.phc.priorityranking.service;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import com.phc.priorityranking.model.PHC;
+import com.phc.priorityranking.model.Phc;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,17 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loads PHC records from a CSV file (classpath resource by default).
- * Expected CSV columns (in order):
- * phcId,name,district,buildingConditionScore,hasElectricity,hasWaterSupply,
- * equipmentAvailabilityScore,monthlyPatientCount,bedCapacity,
- * distanceToNearestHospitalKm,doctorsAvailable,doctorsRequired,
- * nursesAvailable,nursesRequired
+ * Loads PHC records from a CSV file (classpath resource).
+ * Expected columns, in contract order:
+ * id,name,buildingCondition,electricity,waterSupply,equipmentScore,
+ * dailyPatients,bedCapacity,distanceToHospitalKm,
+ * doctorsAvailable,doctorsRequired,nursesAvailable,nursesRequired
  */
 @Service
 public class CsvDataLoaderService {
 
-    public List<PHC> loadFromClasspath(String resourceName) throws IOException, CsvValidationException {
+    public List<Phc> loadFromClasspath(String resourceName) throws IOException, CsvValidationException {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourceName)) {
             if (is == null) {
                 throw new IOException("CSV resource not found: " + resourceName);
@@ -32,29 +31,28 @@ public class CsvDataLoaderService {
         }
     }
 
-    private List<PHC> parse(InputStreamReader reader) throws IOException, CsvValidationException {
-        List<PHC> phcs = new ArrayList<>();
+    private List<Phc> parse(InputStreamReader reader) throws IOException, CsvValidationException {
+        List<Phc> phcs = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(reader)) {
-            String[] header = csvReader.readNext(); // skip header row
+            csvReader.readNext(); // skip header row
             String[] row;
 
             while ((row = csvReader.readNext()) != null) {
-                PHC phc = new PHC();
-                phc.setPhcId(row[0]);
+                Phc phc = new Phc();
+                phc.setId(row[0]);
                 phc.setName(row[1]);
-                phc.setDistrict(row[2]);
-                phc.setBuildingConditionScore(Integer.parseInt(row[3].trim()));
-                phc.setHasElectricity(Boolean.parseBoolean(row[4].trim()));
-                phc.setHasWaterSupply(Boolean.parseBoolean(row[5].trim()));
-                phc.setEquipmentAvailabilityScore(Integer.parseInt(row[6].trim()));
-                phc.setMonthlyPatientCount(Integer.parseInt(row[7].trim()));
-                phc.setBedCapacity(Integer.parseInt(row[8].trim()));
-                phc.setDistanceToNearestHospitalKm(Double.parseDouble(row[9].trim()));
-                phc.setDoctorsAvailable(Integer.parseInt(row[10].trim()));
-                phc.setDoctorsRequired(Integer.parseInt(row[11].trim()));
-                phc.setNursesAvailable(Integer.parseInt(row[12].trim()));
-                phc.setNursesRequired(Integer.parseInt(row[13].trim()));
+                phc.setBuildingCondition(Integer.parseInt(row[2].trim()));
+                phc.setElectricity(Integer.parseInt(row[3].trim()));
+                phc.setWaterSupply(Integer.parseInt(row[4].trim()));
+                phc.setEquipmentScore(Integer.parseInt(row[5].trim()));
+                phc.setDailyPatients(Integer.parseInt(row[6].trim()));
+                phc.setBedCapacity(Integer.parseInt(row[7].trim()));
+                phc.setDistanceToHospitalKm(Double.parseDouble(row[8].trim()));
+                phc.setDoctorsAvailable(Integer.parseInt(row[9].trim()));
+                phc.setDoctorsRequired(Integer.parseInt(row[10].trim()));
+                phc.setNursesAvailable(Integer.parseInt(row[11].trim()));
+                phc.setNursesRequired(Integer.parseInt(row[12].trim()));
                 phcs.add(phc);
             }
         }
