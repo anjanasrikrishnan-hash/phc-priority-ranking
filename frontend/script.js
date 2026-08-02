@@ -24,6 +24,10 @@ const phcs = [
 
 const container = document.getElementById("phc-list");
 
+function barClass(dimensionName, phc) {
+  return phc.criticalDimension === dimensionName ? "bar-fill critical" : "bar-fill";
+}
+
 phcs.forEach(phc => {
   const card = document.createElement("div");
   card.className = "phc-card";
@@ -33,23 +37,23 @@ phcs.forEach(phc => {
 
     <div class="bar-row">
       <span class="bar-label">Infra</span>
-      <div class="bar-bg"><div class="bar-fill" style="width:${phc.infraScore}%"></div></div>
+      <div class="bar-bg"><div class="${barClass('Infrastructure', phc)}" style="width:${phc.infraScore}%"></div></div>
       <span class="bar-value">${phc.infraScore}</span>
     </div>
 
     <div class="bar-row">
       <span class="bar-label">Load</span>
-      <div class="bar-bg"><div class="bar-fill" style="width:${phc.loadScore}%"></div></div>
+      <div class="bar-bg"><div class="${barClass('Patient Load', phc)}" style="width:${phc.loadScore}%"></div></div>
       <span class="bar-value">${phc.loadScore}</span>
     </div>
 
     <div class="bar-row">
       <span class="bar-label">Staffing</span>
-      <div class="bar-bg"><div class="bar-fill" style="width:${phc.staffingScore}%"></div></div>
+      <div class="bar-bg"><div class="${barClass('Staffing', phc)}" style="width:${phc.staffingScore}%"></div></div>
       <span class="bar-value">${phc.staffingScore}</span>
     </div>
 
-    <p><strong>${phc.explanation}</strong></p>
+    <div class="explanation-box">${phc.explanation}</div>
   `;
   container.appendChild(card);
 });

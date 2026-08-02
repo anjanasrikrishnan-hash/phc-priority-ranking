@@ -37,3 +37,15 @@
   font-size: 13px;
   text-align: right;
 }
+.bar-fill.critical {
+  background: crimson;
+}
+
+.explanation-box {
+  background: #fde8e8;
+  color: #a10000;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+}
