@@ -30,7 +30,25 @@ phcs.forEach(phc => {
   card.innerHTML = `
     <h2>#${phc.rank} - ${phc.name}</h2>
     <p>Final Score: ${phc.finalScore}</p>
-    <p>Infra: ${phc.infraScore} | Load: ${phc.loadScore} | Staffing: ${phc.staffingScore}</p>
+
+    <div class="bar-row">
+      <span class="bar-label">Infra</span>
+      <div class="bar-bg"><div class="bar-fill" style="width:${phc.infraScore}%"></div></div>
+      <span class="bar-value">${phc.infraScore}</span>
+    </div>
+
+    <div class="bar-row">
+      <span class="bar-label">Load</span>
+      <div class="bar-bg"><div class="bar-fill" style="width:${phc.loadScore}%"></div></div>
+      <span class="bar-value">${phc.loadScore}</span>
+    </div>
+
+    <div class="bar-row">
+      <span class="bar-label">Staffing</span>
+      <div class="bar-bg"><div class="bar-fill" style="width:${phc.staffingScore}%"></div></div>
+      <span class="bar-value">${phc.staffingScore}</span>
+    </div>
+
     <p><strong>${phc.explanation}</strong></p>
   `;
   container.appendChild(card);
