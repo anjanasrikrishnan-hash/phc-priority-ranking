@@ -1,18 +1,23 @@
-package com.phc.priorityranking.agent;
+public class PatientLoadAgent {
 
-import com.phc.priorityranking.model.Phc;
-import org.springframework.stereotype.Component;
+    public double calculatePatientLoadScore(int dailyPatients,
+                                            int bedCapacity,
+                                            int distanceToHospitalKm) {
 
-@Component
-public class PatientLoadScoringAgent implements ScoringAgent {
+        // Patients per bed
+        double patientRatio = (double) dailyPatients / bedCapacity;
 
-    @Override
-    public double score(Phc phc) {
-        return 0; // real formula: Day 2-3
-    }
+        // Convert ratio to score (Maximum 100)
+        double patientScore = Math.min(patientRatio * 10, 100);
 
-    @Override
-    public String dimensionName() {
-        return "Patient Load";
+        // Distance score (Maximum 100)
+        double distanceScore = Math.min(distanceToHospitalKm * 3, 100);
+
+        // Final weighted score
+        double finalScore =
+                (patientScore * 0.70) +
+                (distanceScore * 0.30);
+
+        return finalScore;
     }
 }
