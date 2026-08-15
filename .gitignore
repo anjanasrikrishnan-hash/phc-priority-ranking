@@ -1,0 +1,11 @@
+aarogyarank-frontend/node_modules/
+aarogyarank-frontend/.next/
+aarogyarank-frontend/out/
+aarogyarank-backend/target/
+.env
+.env.local
+.env.*.local
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
